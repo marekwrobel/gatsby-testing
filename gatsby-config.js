@@ -6,5 +6,9 @@ module.exports = {
     title: `gatsby-testing`,
     siteUrl: `https://www.yourdomain.tld`,
   },
-  plugins: [],
+  plugins: [
+    {
+      resolve: 'gatsby-plugin-source-api',
+    },
+  ],
 }
