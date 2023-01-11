@@ -16,7 +16,7 @@ exports.sourceNodes = async ({
   const { createNode } = actions;
 
   // get the last timestamp from the cache
-  const lastFetched = 1673465257758 //await cache.get(`timestamp`)
+  const lastFetched = 1673468709636 //await cache.get(`timestamp`)
   const pageNumber = 1
   let nextPageUrl = `http://localhost:3000/courses?lastUpdated=${lastFetched}&pageNumber=${pageNumber}`;
   let results = [];
@@ -44,6 +44,10 @@ exports.sourceNodes = async ({
       },
     })
   )
+
+  // TODO: How to cache previously built nodes so that:
+  // - we can fetch only recently updated items
+  // - we rebuild only nodes that have to be updated
 
   return
 }
