@@ -14,13 +14,22 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `)
 
-  const courseTemplate = path.resolve(`src/templates/course.js`)
+  const courseTemplate = path.resolve(`src/templates/courseUpdated.js`)
+  // queryResults.data.allCourse.nodes.forEach(node => {
+  //   createPage({
+  //     path: `/courses/${node.uuid}`,
+  //     component: courseTemplate,
+  //     context: {
+  //       course: node,
+  //     },
+  //   })
+  // })
   queryResults.data.allCourse.nodes.forEach(node => {
     createPage({
       path: `/courses/${node.uuid}`,
       component: courseTemplate,
       context: {
-        course: node,
+        uuid: node.uuid
       },
     })
   })
