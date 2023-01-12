@@ -16,7 +16,7 @@ exports.sourceNodes = async ({
   const { createNode } = actions;
 
   // get the last timestamp from the cache
-  const lastFetched = 1673468709636 //await cache.get(`timestamp`)
+  const lastFetched = 1673465257758 //await cache.get(`timestamp`)
   const pageNumber = 1
   let nextPageUrl = `http://localhost:3000/courses?lastUpdated=${lastFetched}&pageNumber=${pageNumber}`;
   let results = [];
@@ -35,7 +35,7 @@ exports.sourceNodes = async ({
   results.forEach(course =>
     createNode({
       ...course,
-      id: createNodeId(`${COURSE_NODE_TYPE}-${course.id}`),
+      id: createNodeId(`${COURSE_NODE_TYPE}-${course.uuid}`),
       parent: null,
       children: [],
       internal: {
