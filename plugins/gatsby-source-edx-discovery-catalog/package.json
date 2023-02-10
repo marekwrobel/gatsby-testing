@@ -1,0 +1,26 @@
+{
+  "name": "gatsby-source-edx-discovery-catalog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gatsby-node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@danielkalen/hash-sum": "^1.0.4",
+    "algoliasearch": "^4.0.3",
+    "bottleneck": "^2.15.3",
+    "fs-extra": "^10.0.0",
+    "fs-jetpack": "^4.3.1",
+    "gatsby-cli": "^2.4.15",
+    "gatsby-node-helpers": "^1.0.0",
+    "lodash": "^4.17.11",
+    "node-fetch": "^2.3.0",
+    "opentracing": "^0.14.3",
+    "progress": "^2.0.3",
+    "query-string": "^7.0.0"
+  }
+}
