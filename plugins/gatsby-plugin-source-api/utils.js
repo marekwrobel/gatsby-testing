@@ -39,27 +39,21 @@ const initAccessToken = async () => {
   }
 };
 
-const fetchCourses = async () => {
+const fetchCourses = async (lastFetchedTimestamp) => {
   let allCourses = [];
-  let nextPageUrl = `https://discovery.edx.org/api/v1/courses`;
-  let pageNumber = 1
+  let pageNumber = 1;
+  let nextPageUrl = `https://discovery.edx.org/api/v1/courses?timestamp=${lastFetchedTimestamp}&pageNumber=${pageNumber}`;
 
   while (nextPageUrl) {
-    const pageFetching = reporter.activityTimer(`############################## Fetching Courses Page ${pageNumber}`)
+    const pageFetching = reporter.activityTimer(`Fetching Page ${pageNumber}`)
     pageFetching.start()
     const response = await fetch(nextPageUrl, options)
     const responseJSON = await response.json()
     pageFetching.end()
     if (responseJSON.results) {
       allCourses = [...allCourses, ...responseJSON.results]
-      //reporter.info(`responseJSON.results: ${responseJSON.results.length}`)
     }    
-    const totalPages = Math.ceil(responseJSON.count / 20);
-    //reporter.info(`#### FETCHED PAGE ${pageNumber} / ${totalPages}`)
     pageNumber++
-    // if (pageNumber > 10) {
-    //   break;
-    // }
     nextPageUrl = responseJSON.next;
   }
   return allCourses;
