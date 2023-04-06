@@ -1,0 +1,10 @@
+
+type Subject implements Node {
+  uuid: String
+  name: String
+}
+
+type Course implements Node {
+  uuid: String
+  title: String
+}
