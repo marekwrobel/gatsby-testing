@@ -13,18 +13,25 @@ const { initAccessToken, fetchCourses, fetchCoursesMock, fetchSubjectsMock } = r
 //   await cache.set(`last_fetched_timestamp`, Date.now())
 // }
 
-
-
-
-
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
 
+  // TODO: it needs to be "xsubjects" or anything else than "subjects" 
+  // otherwise it goes into an infite loop while running a query
   const typeDefs = `
+    type Subject implements Node {
+      courses: [Course] @link(by: "subjects.elemMatch.uuid", from: "uuid")
+    }
     type Course implements Node {
-      subjects: [Subject] @link(by: "course.uuid", from: "uuid")
+      xsubjects: [Subject] @link(by: "courses.elemMatch.uuid", from: "uuid")
     }
   `
+  // Above we have successfully added a field to the Subject model called "courses" that contains
+  // a list of course nodes related to this subject
+  // We also added a field xsubjects to the Course model, which contains a list of Subject nodes
+  // this course relates to
+  // TODO: figure out how to be able to call it "subjects" and still perform all linking
+
   createTypes(typeDefs)
 }
 
