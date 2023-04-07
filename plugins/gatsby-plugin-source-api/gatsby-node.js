@@ -16,8 +16,6 @@ const { initAccessToken, fetchCourses, fetchCoursesMock, fetchSubjectsMock } = r
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
 
-  // TODO: it needs to be "xsubjects" or anything else than "subjects" 
-  // otherwise it goes into an infite loop while running a query
   const typeDefs = `
     type Subject implements Node {
       courses: [Course] @link(by: "subjects.elemMatch.uuid", from: "uuid")
@@ -26,12 +24,45 @@ exports.createSchemaCustomization = ({ actions }) => {
       xsubjects: [Subject] @link(by: "courses.elemMatch.uuid", from: "uuid")
     }
   `
-  // Above we have successfully added a field to the Subject model called "courses" that contains
-  // a list of course nodes related to this subject
-  // We also added a field xsubjects to the Course model, which contains a list of Subject nodes
-  // this course relates to
+  // Above we successfully added a field 'courses' to the Subject model 
+  // that contains a list of course nodes related to this particular subject
+  // We also added a field 'xsubjects' to the Course model
+  // that contains a list of Subject nodes this course relates to
+  // So the above is just a two way linking/binding these two models
   // TODO: figure out how to be able to call it "subjects" and still perform all linking
+  // Right now, if we change xsubjects -> subjects it goes into indefinite loop
 
+  // Query to confirm all working:
+  // query MyQuery {
+  //   allSubject {
+  //   edges {
+  //     node {
+  //         uuid
+  //         name
+  //       courses {
+  //           uuid
+  //           title
+  //         }
+  //       }
+  //     }
+  //   }
+  // allCourse {
+  //   edges {
+  //     node {
+  //         uuid
+  //         title
+  //       subjects {
+  //           uuid
+  //         }
+  //       xsubjects {
+  //           uuid
+  //           name
+  //         }
+  //       }
+  //     }
+  //   }
+
+  // }
   createTypes(typeDefs)
 }
 
