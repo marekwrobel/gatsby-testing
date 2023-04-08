@@ -17,10 +17,18 @@ exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
 
   const typeDefs = `
-    type Subject implements Node {
+    type LimitedSubject implements Node @dontInfer {
+      uuid: String
+    }
+    type Subject implements Node @dontInfer {
+      uuid: String
+      name: String
       courses: [Course] @link(by: "subjects.elemMatch.uuid", from: "uuid")
     }
-    type Course implements Node {
+    type Course implements Node @dontInfer {
+      uuid: Int
+      title: String
+      subjects: [LimitedSubject]
       xsubjects: [Subject] @link(by: "courses.elemMatch.uuid", from: "uuid")
     }
   `
