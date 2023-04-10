@@ -23,24 +23,21 @@ exports.createSchemaCustomization = ({ actions }) => {
     type Subject implements Node @dontInfer {
       uuid: String
       name: String
-      courses: [Course] @link(by: "subjects.elemMatch.uuid", from: "uuid")
+      courses: [Course] @link(by: "proxy_subjects.elemMatch.uuid", from: "uuid")
     }
     type Course implements Node @dontInfer {
       uuid: Int
       title: String
-      subjects: [LimitedSubject]
-      xsubjects: [Subject] @link(by: "courses.elemMatch.uuid", from: "uuid")
+      proxy_subjects: [LimitedSubject] @proxy(from: "subjects")
+      subjects: [Subject] @link(by: "courses.elemMatch.uuid", from: "uuid")
     }
   `
-  // Above we successfully added a field 'courses' to the Subject model 
-  // that contains a list of course nodes related to this particular subject
-  // We also added a field 'xsubjects' to the Course model
-  // that contains a list of Subject nodes this course relates to
-  // So the above is just a two way linking/binding these two models
-  // TODO: figure out how to be able to call it "subjects" and still perform all linking
-  // Right now, if we change xsubjects -> subjects it goes into indefinite loop
+  // Above we add:
+  // - a field 'courses' to the Subject model that contains a list of course nodes related to this particular subject
+  // - a field 'subjects' to the Course model that contains a list of subject nodes related to this particular course
+  // In order to allow for this bidirectional linking, we needed to create a proxy field in graphql schema
+  // To allow gatsby to switch (fill in) the 'subjects' field without impacting anything
 
-  // Query to confirm all working:
   // query MyQuery {
   //   allSubject {
   //   edges {
@@ -59,17 +56,17 @@ exports.createSchemaCustomization = ({ actions }) => {
   //     node {
   //         uuid
   //         title
-  //       subjects {
+  //       proxy_subjects {
   //           uuid
   //         }
-  //       xsubjects {
+  //       subjects {
   //           uuid
   //           name
   //         }
+
   //       }
   //     }
   //   }
-
   // }
   createTypes(typeDefs)
 }
@@ -103,7 +100,7 @@ exports.sourceNodes = async ({
   const allSubjects = fetchSubjectsMock();
 
   // FETCH ALL OR ONLY UPDATED COURSES
-  const fetchOnlyUpdatedCourses = false;
+  const fetchOnlyUpdatedCourses = true;
   const allCourses = fetchCoursesMock(fetchOnlyUpdatedCourses);
 
   // CREATE SUBJECT NODES
