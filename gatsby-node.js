@@ -17,11 +17,11 @@ exports.onPostBootstrap = async ({
   // const val = 501
   // await cache.set("VALUE", val)
   // console.log(`SET: ${val}`)
-  console.log("testingxx")
+  console.log("testingxxz")
 };
 
 exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions
+  const { createPage, cache } = actions
   // const queryResults = await graphql(`
   //   query {
   //     allCourse {

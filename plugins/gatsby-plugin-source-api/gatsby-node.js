@@ -80,6 +80,7 @@ exports.sourceNodes = async ({
   cache,
   createContentDigest,
   createNodeId,
+  getNode,
   getNodes,
   getNodesByType,
   reporter,
@@ -89,6 +90,11 @@ exports.sourceNodes = async ({
   console.log("GOT: ", v)
 
   const { createNode, touchNode } = actions;
+
+  const buildInfoNodes = getNodesByType('BUILD_INFO_TYPE');
+  buildInfoNodes.forEach(node => touchNode(node));
+
+  console.log('nodes: ', buildInfoNodes);
 
   if (isFirstSourceInCurrentNodeProcess) {
     const allCourseNodes = getNodesByType(COURSE_NODE_TYPE);
