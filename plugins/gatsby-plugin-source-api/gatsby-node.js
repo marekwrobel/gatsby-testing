@@ -85,16 +85,13 @@ exports.sourceNodes = async ({
   getNodesByType,
   reporter,
 }) => {
+  // console.log("here process.env.testin is ", process.env.testin = "123")
   console.log("====== sourceNodes ========")
   const v = await cache.get("VALUE");
   console.log("GOT: ", v)
 
+  ////////////////////////////////////////////////
   const { createNode, touchNode } = actions;
-
-  const buildInfoNodes = getNodesByType('BUILD_INFO_TYPE');
-  buildInfoNodes.forEach(node => touchNode(node));
-
-  console.log('nodes: ', buildInfoNodes);
 
   if (isFirstSourceInCurrentNodeProcess) {
     const allCourseNodes = getNodesByType(COURSE_NODE_TYPE);
@@ -157,11 +154,13 @@ exports.sourceNodes = async ({
     }
   })
 
+  ////////////////////////////////////////////////
+  
   const currentBuildTimestamp = new Date().toJSON()
   await cache.set('CACHED_INFO', currentBuildTimestamp)
 
-  console.log("====== sourceNodes ========")
-  const val = 2
+  console.log("====== sourceNoodes ========")
+  const val = 7
   await cache.set("VALUE", val)
   console.log(`SET: ${val}`)
   

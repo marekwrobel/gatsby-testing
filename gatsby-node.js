@@ -6,6 +6,7 @@ exports.onPreBootstrap = async ({
   // console.log("====== onPreBootstrap ========")
   // const v = await cache.get("VALUE");
   // console.log("GOT: ", v)
+  // process.env.testin = "123"
 };
 
 exports.onPostBootstrap = async ({
@@ -17,7 +18,7 @@ exports.onPostBootstrap = async ({
   // const val = 501
   // await cache.set("VALUE", val)
   // console.log(`SET: ${val}`)
-  console.log("testingxxz")
+  console.log("testingxxzz")
 };
 
 exports.createPages = async ({ graphql, actions }) => {
