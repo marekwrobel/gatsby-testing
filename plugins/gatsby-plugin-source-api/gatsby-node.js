@@ -84,6 +84,9 @@ exports.sourceNodes = async ({
   getNodesByType,
   reporter,
 }) => {
+  console.log("====== sourceNodes ========")
+  const v = await cache.get("VALUE");
+  console.log("GOT: ", v)
 
   const { createNode, touchNode } = actions;
 
@@ -131,7 +134,31 @@ exports.sourceNodes = async ({
     })
   ) 
 
-  return
+  const cachedInfo = await cache.get('CACHED_INFO') || "Not Found"
+
+  const infoData = {
+    info: 'Info Here',
+    cachedInfo,
+  }
+  createNode({
+    ...infoData,
+    id: createNodeId(`BUILD_INFO`),
+    parent: null,
+    children: [],
+    internal: {
+      type: 'BUILD_INFO_TYPE',
+      contentDigest: createContentDigest(infoData),
+    }
+  })
+
+  const currentBuildTimestamp = new Date().toJSON()
+  await cache.set('CACHED_INFO', currentBuildTimestamp)
+
+  console.log("====== sourceNodes ========")
+  const val = 2
+  await cache.set("VALUE", val)
+  console.log(`SET: ${val}`)
+  
 }
 
 // const COURSE_NODE_TYPE = 'Course'
