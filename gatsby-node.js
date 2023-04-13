@@ -1,24 +1,33 @@
 const path = require('path');
 
-exports.onPreBootstrap = async ({
+exports.onPreBuild = async ({
   cache,
 }) => {
   // console.log("====== onPreBootstrap ========")
   // const v = await cache.get("VALUE");
   // console.log("GOT: ", v)
-  // process.env.testin = "123"
+  //await cache.set("x", 10)
+
+  // const currBTS = new Date().toJSON()
+  // await cache.set('TS', currBTS);
+
+
+   //process.env.ts = new Date().toJSON()
 };
 
-exports.onPostBootstrap = async ({
+exports.onPostBuild = async ({
   cache,
 }) => {
+  // const ts = await cache.get("TS");
+  // console.log("ts: ", ts)
+  
   // console.log("====== onPostBootstrap ========")
   // const v = await cache.get("VALUE");
   // console.log("GOT: ", v)
   // const val = 501
   // await cache.set("VALUE", val)
   // console.log(`SET: ${val}`)
-  console.log("testingxxzz")
+  console.log("testifsdfsdfsfnerewrwsdfsdfsdfergxxzz")
 };
 
 exports.createPages = async ({ graphql, actions }) => {

@@ -17,19 +17,15 @@ exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
 
   const typeDefs = `
-    type LimitedSubject implements Node @dontInfer {
-      uuid: String
-    }
     type Subject implements Node @dontInfer {
       uuid: String
       name: String
-      courses: [Course] @link(by: "proxy_subjects.elemMatch.uuid", from: "uuid")
+      courses: [Course] @link(by: "subjects.elemMatch.uuid", from: "uuid")
     }
     type Course implements Node @dontInfer {
       uuid: Int
       title: String
-      proxy_subjects: [LimitedSubject] @proxy(from: "subjects")
-      subjects: [Subject] @link(by: "courses.elemMatch.uuid", from: "uuid")
+      subjects: [Subject] @link(by: "uuid", from: "subjects.uuid")
     }
   `
   // Above we add:
@@ -87,6 +83,8 @@ exports.sourceNodes = async ({
 }) => {
   // console.log("here process.env.testin is ", process.env.testin = "123")
   console.log("====== sourceNodes ========")
+  // const x = await cache.get("x")
+  // console.log("my x is: ", x)
   const v = await cache.get("VALUE");
   console.log("GOT: ", v)
 
@@ -159,8 +157,8 @@ exports.sourceNodes = async ({
   const currentBuildTimestamp = new Date().toJSON()
   await cache.set('CACHED_INFO', currentBuildTimestamp)
 
-  console.log("====== sourceNoodes ========")
-  const val = 7
+  console.log("====== sourceNooooooodes ========")
+  const val = 5
   await cache.set("VALUE", val)
   console.log(`SET: ${val}`)
   
